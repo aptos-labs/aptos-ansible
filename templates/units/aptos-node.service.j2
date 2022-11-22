@@ -1,0 +1,16 @@
+[Unit]
+Description=Aptos Node
+After=network-online.target
+
+[Service]
+User={{ user }}
+WorkingDirectory={{ aptos_core_dir }}
+ExecStart={{ aptos_core_dir }}/target/{{ build_profile }}/aptos-node -f {{ aptos_data_dir }}/config.yaml
+Restart=always
+RestartSec=5
+LimitNOFILE=65535
+StandardOutput=append:{{ aptos_data_dir }}/logs/aptos-info
+StandardError=append:{{ aptos_data_dir }}/logs/aptos-error
+
+[Install]
+WantedBy=multi-user.target
