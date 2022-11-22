@@ -4,12 +4,18 @@
 ---
 - hosts: nodes
   name: Build aptos-core binary
+  # We set variables here that have sensible defaults. Other variables that we
+  # require users to set themselves are checked at the start of the play.
   vars:
-    version: devnet
     aptos_core_path: /opt/aptos-core
-    binary_path: /usr/bin/aptos-node
     build_profile: performance
+    binary_path: /usr/bin/aptos-node
   tasks:
+    - name: Assert that the version variable is defined
+      ansible.builtin.assert:
+        that: version is defined
+        fail_msg: The variable "version" must be defined
+
     - name: Make /opt if necessary
       become: true
       ansible.builtin.file:
@@ -29,11 +35,11 @@
         cmd: >
           . $HOME/.cargo/env &&
           cd {{ vars.aptos_core_path }} &&
-          cargo build --profile performance --package aptos-node
+          cargo build --profile {{ vars.build_profile }} --package aptos-node
       tags:
         - skip_ansible_lint
 
-    - name: Copy aptos-node to {{ vars.binary_path }}
+    - name: Copy aptos-node to the configured binary path
       ansible.builtin.copy:
         src: "{{ vars.aptos_core_path }}/target/{{ vars.build_profile }}/aptos-node"
         dest: "{{ vars.binary_path }}"
