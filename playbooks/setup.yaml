@@ -1,0 +1,13 @@
+# This playbook sets up some basics for running the other playbooks.
+
+---
+- hosts: nodes
+  name: Perform basic setup.
+  tasks:
+    - name: Create the /ansible directory to enable idempotency for some tasks.
+      become: true
+      ansible.builtin.file:
+        path: "/ansible"
+        state: directory
+        owner: "{{ ansible_user_id }}"
+        mode: '0755'
