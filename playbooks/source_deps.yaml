@@ -15,8 +15,10 @@
       # TODO: Consider thinning scripts/dev_setup.sh and using that instead.
       ansible.builtin.package:
         name:
+          - clang
           - git
           - lld
+          - llvm
         state: present
 
     - name: Install packages specific to Debian-like systems
