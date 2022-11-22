@@ -1,0 +1,41 @@
+# This playbook installs necessary dependencies for running the Aptos node
+# from source.
+
+---
+- hosts: nodes
+  name: Install package manager dependencies
+  tasks:
+    - name: Install package manager dependencies
+      become: true
+      # TODO: Consider pinning to particular versions.
+      ansible.builtin.package:
+        name:
+          - git
+        state: present
+
+- hosts: nodes
+  name: Install Rust
+  tasks:
+    - name: Get current cargo version, if any
+      ansible.builtin.shell: "cargo version -v | grep release: | awk '{print $2}'"
+      register: cargo_version
+      ignore_errors: true
+      changed_when: cargo_version.rc != 0
+
+    - name: Exit playbook if cargo is already installed at the correct version
+      ansible.builtin.meta: end_play
+      when: cargo_version is not failed and cargo_version.stdout == "1.65.0"
+
+    - name: Get rustup installer
+      become: true
+      ansible.builtin.get_url:
+        url: https://sh.rustup.rs
+        dest: /tmp/rustup.sh
+        mode: '0755'
+
+    - name: Install rustup
+      tags:
+        # We've already checked that we don't run this unnecessarily.
+        - skip_ansible_lint
+      become: true
+      ansible.builtin.command: /tmp/sh.rustup.rs -y
