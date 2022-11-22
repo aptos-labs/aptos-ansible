@@ -9,7 +9,6 @@
   vars:
     aptos_core_path: /opt/aptos-core
     build_profile: performance
-    binary_path: /usr/bin/aptos-node
   tasks:
     - name: Assert that the version variable is defined
       ansible.builtin.assert:
@@ -38,11 +37,3 @@
           cargo build --profile {{ vars.build_profile }} --package aptos-node
       tags:
         - skip_ansible_lint
-
-    - name: Copy aptos-node to the configured binary path
-      ansible.builtin.copy:
-        src: "{{ vars.aptos_core_path }}/target/{{ vars.build_profile }}/aptos-node"
-        dest: "{{ vars.binary_path }}"
-        mode: "0755"
-
-
