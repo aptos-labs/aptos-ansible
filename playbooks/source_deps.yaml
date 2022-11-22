@@ -45,14 +45,10 @@
     - name: Install packages specific to Arch-like systems
       become: true
       ansible.builtin.package:
-        # todo, make this correct
         name:
-          - gcc
-          - gcc-c++
-          - kernel-devel
-          - make
-          - openssl-devel
-          - pkgconfig
+          - base-devel
+          - openssl
+          - pkgconf
         state: present
       when: ansible_os_family == "Archlinux"
 
