@@ -1,0 +1,31 @@
+# This playbook installs a systemd unit for running the node and enables + starts it.
+
+---
+- name: Make user systemd directory
+  become: true
+  ansible.builtin.file:
+    path: "/home/{{ ansible_user_id }}/.config/systemd/user"
+    state: directory
+    owner: "{{ ansible_user_id }}"
+    mode: '0777'
+
+- name: Enable linger for user so the unit runs on reboot
+  become: true
+  ansible.builtin.command:
+    cmd: loginctl enable-linger {{ ansible_user_id }}
+    creates: /ansible/linger_enabled
+
+- name: Create systemd spec file
+  ansible.builtin.template:
+    src: templates/units/aptos-node.service.j2
+    dest: "/home/{{ ansible_user_id }}/.config/systemd/user/aptos-node.service"
+    owner: "{{ ansible_user_id }}"
+    mode: '0644'
+
+- name: Start and enable the aptos-node unit
+  ansible.builtin.systemd:
+    name: aptos-node
+    daemon_reload: true
+    enabled: true
+    state: restarted
+    scope: user

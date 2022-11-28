@@ -1,0 +1,9 @@
+# This playbook opens up the firewall as necessary.
+
+---
+- name: Install packages for working with the firewall
+  become: true
+  ansible.builtin.package:
+    name:
+      - ufw
+    state: present

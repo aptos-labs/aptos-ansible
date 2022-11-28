@@ -1,0 +1,20 @@
+---
+argument_specs:
+  main:
+    options:
+      aptos_core_path:
+        type: "str"
+        required: true
+        default: "/opt/aptos-core"
+        description: "The absolute path where the role will clone aptos-core"
+
+      build_profile:
+        type: "str"
+        required: true
+        default: "release"
+        description: "The profile to use for cargo build, e.g. release, performance, etc."
+
+      git_ref:
+        type: "str"
+        required: true
+        description: "The git ref to checkout, e.g. a branch name (devnet) or commit hash (e2c60c8ef)"

@@ -12,6 +12,8 @@ Then install dependencies like this:
 poetry install
 ```
 
+If you choose not to use the version we've specified, note that you need Ansible >= 2.11 and Python >= 3.8.
+
 ## Setting up Ansible
 There are some manual steps you must do first:
 - Ensure can SSH into the machine as a user with sudo privileges.
@@ -20,6 +22,6 @@ There are some manual steps you must do first:
 todo talk about how to piece together a super playbook that does what you want
 
 ```
-poetry run ansible-playbook -i hosts playbooks/source_deps.yaml
+poetry run ansible-playbook -i hosts playbooks/build_binary.yaml --extra-vars 'git_rev=devnet'
 ```
 

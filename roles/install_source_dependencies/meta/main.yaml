@@ -1,0 +1,9 @@
+---
+argument_specs:
+  install_rust:
+    options:
+      rust_version:
+        type: "str"
+        required: true
+        default: "1.65.0"
+        description: "The version of the Rust toolchain to install, e.g. 1.65.0"

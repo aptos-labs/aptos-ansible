@@ -1,0 +1,14 @@
+# This task installs necessary dependencies for running the Aptos node
+# from source. Note: You'll see that some tasks first source the cargo env
+# and then run the cargo command. This is because the cargo command is not
+# available in the PATH until the cargo env is sourced. This is a known
+# "feature" of Ansible: https://github.com/ansible/ansible/issues/4854#issuecomment-67451069.
+
+---
+- name: Run the install package manager deps role
+  ansible.builtin.import_role:
+    name: install_package_manager_deps
+
+- name: Run the install Rust role
+  ansible.builtin.import_role:
+    name: install_rust
