@@ -6,19 +6,17 @@
   ignore_errors: true
   changed_when: cargo_version.rc != 0
 
-- name: Exit playbook if cargo is already installed with the specified version
-  ansible.builtin.meta: end_play
-  when: cargo_version.stdout.split()[1] == vars.rust_version
-
 - name: Get rustup installer
   ansible.builtin.get_url:
     url: https://sh.rustup.rs
     dest: /tmp/rustup.sh
     mode: "0755"
+  when: cargo_version.stdout.split()[1] != vars.rust_version
 
 - name: Install rustup
   ansible.builtin.shell:
     cmd: /tmp/rustup.sh -y
+  when: cargo_version.stdout.split()[1] != vars.rust_version
   tags:
     # We've already checked that we don't run this unnecessarily.
     - skip_ansible_lint
@@ -26,6 +24,7 @@
 - name: Use specified Rust version
   ansible.builtin.shell:
     cmd: ". $HOME/.cargo/env && rustup override set {{ vars.rust_version }}"
+  when: cargo_version.stdout.split()[1] != vars.rust_version
   tags:
     - skip_ansible_lint
 

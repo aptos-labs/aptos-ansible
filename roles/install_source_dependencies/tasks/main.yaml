@@ -6,9 +6,7 @@
 
 ---
 - name: Run the install package manager deps role
-  ansible.builtin.import_role:
-    name: install_package_manager_deps
+  ansible.builtin.import_tasks: install_package_manager_deps.yaml
 
 - name: Run the install Rust role
-  ansible.builtin.import_role:
-    name: install_rust
+  ansible.builtin.import_tasks: install_rust.yaml

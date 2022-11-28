@@ -17,7 +17,7 @@
 
 - name: Create systemd spec file
   ansible.builtin.template:
-    src: templates/units/aptos-node.service.j2
+    src: templates/aptos-node.service.j2
     dest: "/home/{{ ansible_user_id }}/.config/systemd/user/aptos-node.service"
     owner: "{{ ansible_user_id }}"
     mode: '0644'

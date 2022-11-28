@@ -1,0 +1,10 @@
+# This playbook sets up a fullnode that runs from source.
+
+- name: Setup fullnode running from source
+  hosts: nodes
+  roles:
+    - basic_setup
+    - install_source_dependencies
+    - build_binary
+    - setup_firewall
+    - start_unit

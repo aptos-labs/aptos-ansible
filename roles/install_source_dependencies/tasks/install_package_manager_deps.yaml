@@ -1,4 +1,3 @@
-
 ---
 # These are packages where the name is the same for the tested systems (see README).
 - name: Install common package manager dependencies
