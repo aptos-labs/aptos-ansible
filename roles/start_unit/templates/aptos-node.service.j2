@@ -1,16 +1,22 @@
 [Unit]
 Description=Aptos Node
+Wants=network.target
 After=network-online.target
 
 [Service]
-User={{ user }}
-WorkingDirectory={{ aptos_core_dir }}
-ExecStart={{ aptos_core_dir }}/target/{{ build_profile }}/aptos-node -f {{ aptos_data_dir }}/config.yaml
-Restart=always
-RestartSec=5
+# todo, User is only required if running as root, otherwise it's actively harmful
+
+WorkingDirectory={{ node_data_path }}
+ExecStart={{ aptos_core_path }}/target/release/aptos-node -f {{ node_data_path }}/config.yaml
+
+Restart={{ restart }}
+RestartSec={{ restart_sec }}
+
 LimitNOFILE=65535
-StandardOutput=append:{{ aptos_data_dir }}/logs/aptos-info
-StandardError=append:{{ aptos_data_dir }}/logs/aptos-error
+
+{# Callers of this role may set additional kvs in the Service section by using this block #}
+{% block service_block %}
+{% endblock %}
 
 [Install]
 WantedBy=multi-user.target

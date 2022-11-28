@@ -1,6 +1,13 @@
 # This playbook installs a systemd unit for running the node and enables + starts it.
 
 ---
+- name: Create aptos data directory
+  ansible.builtin.file:
+    path: "{{ node_data_path }}"
+    state: directory
+    owner: "{{ ansible_user_id }}"
+    mode: 0755
+
 - name: Make user systemd directory
   become: true
   ansible.builtin.file:
@@ -11,8 +18,8 @@
 
 - name: Enable linger for user so the unit runs on reboot
   become: true
-  ansible.builtin.command:
-    cmd: loginctl enable-linger {{ ansible_user_id }}
+  ansible.builtin.shell:
+    cmd: loginctl enable-linger {{ ansible_user_id }} && touch /ansible/linger_enabled
     creates: /ansible/linger_enabled
 
 - name: Create systemd spec file

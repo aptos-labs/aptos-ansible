@@ -1,0 +1,28 @@
+---
+argument_specs:
+  main:
+    options:
+      # Note: These first two are meant to be the same arguments as in the build_binary role.
+      aptos_core_path:
+        type: "str"
+        description: "The absolute path where the role will clone aptos-core"
+
+      build_profile:
+        type: "str"
+        description: "The profile to use for cargo build, e.g. release, performance, etc."
+
+      node_data_path:
+        type: "str"
+        description: "The directory the aptos-node binary will run in, i.e. where the DB data will be"
+
+      config_path:
+        type: "str"
+        description: "The path to the aptos-node config file"
+
+      restart:
+        type: "str"
+        description: "The value for the Restart key in the system unit file"
+
+      restart_sec:
+        type: "str"
+        description: "The value for the RestartSec key in the system unit file"
