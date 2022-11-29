@@ -1,0 +1,2 @@
+restart: always
+restart_sec: 5

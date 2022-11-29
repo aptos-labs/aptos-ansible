@@ -14,7 +14,7 @@
     path: "/home/{{ ansible_user_id }}/.config/systemd/user"
     state: directory
     owner: "{{ ansible_user_id }}"
-    mode: '0777'
+    mode: "0777"
 
 - name: Enable linger for user so the unit runs on reboot
   become: true
@@ -27,7 +27,13 @@
     src: templates/aptos-node.service.j2
     dest: "/home/{{ ansible_user_id }}/.config/systemd/user/aptos-node.service"
     owner: "{{ ansible_user_id }}"
-    mode: '0644'
+    mode: "0644"
+
+- name: Make sure the node can bind to "privileged" ports if necessary
+  become: true
+  ansible.builtin.command:
+    cmd: setcap 'cap_net_bind_service=+ep' {{ vars.aptos_core_path }}/target/{{ vars.build_profile }}/aptos-node
+  when: api_port < 1024
 
 - name: Start and enable the aptos-node unit
   ansible.builtin.systemd:

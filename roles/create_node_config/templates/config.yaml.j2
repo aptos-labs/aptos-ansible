@@ -1,0 +1,19 @@
+base:
+    data_dir: "{{ node_data_path }}"
+    role: "{{ node_role }}"
+    waypoint:
+        from_file: "./waypoint.txt"
+
+execution:
+    genesis_file_location: "./genesis.blob"
+
+full_node_networks:
+    - discovery_method: "onchain"
+      listen_address: "/ip4/127.0.0.1/tcp/6180"
+      network_id: "public"
+      seeds:
+        {}
+
+api:
+    enabled: true
+    address: {{ "0.0.0.0" if make_api_public else "127.0.0.1" }}:{{ api_port }}

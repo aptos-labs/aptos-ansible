@@ -1,0 +1,17 @@
+# This playbook creates the node config. We express this as an individual role so
+# the already-complex args are "lifted" as much as possible.
+
+---
+- name: Create aptos data directory
+  ansible.builtin.file:
+    path: "{{ node_data_path }}"
+    state: directory
+    owner: "{{ ansible_user_id }}"
+    mode: 0755
+
+- name: Create the node config file
+  ansible.builtin.template:
+    src: templates/config.yaml.j2
+    dest: "{{ config_path }}"
+    owner: "{{ ansible_user_id }}"
+    mode: "0644"

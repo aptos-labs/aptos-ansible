@@ -1,4 +1,2 @@
 node_data_path: /opt/aptos-node-data
 config_path: /opt/aptos-node-data/config.yaml
-restart: always
-restart_sec: 5

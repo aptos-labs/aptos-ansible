@@ -4,10 +4,14 @@ Wants=network.target
 After=network-online.target
 
 [Service]
-# todo, User is only required if running as root, otherwise it's actively harmful
+{# todo, User is only required if running as root, otherwise it's actively harmful #}
+
+# Download the genesis and waypoint if necessary.
+ExecStartPre=curl -z {{ node_data_path }}/genesis.blob -o {{ node_data_path }}/genesis.blob https://raw.githubusercontent.com/aptos-labs/aptos-networks/main/{{ aptos_network }}/genesis.blob
+ExecStartPre=curl -z {{ node_data_path }}/waypoint.txt -o {{ node_data_path }}/waypoint.txt https://raw.githubusercontent.com/aptos-labs/aptos-networks/main/{{ aptos_network }}/waypoint.txt
 
 WorkingDirectory={{ node_data_path }}
-ExecStart={{ aptos_core_path }}/target/release/aptos-node -f {{ node_data_path }}/config.yaml
+ExecStart={{ aptos_core_path }}/target/{{ build_profile }}/aptos-node -f {{ node_data_path }}/config.yaml
 
 Restart={{ restart }}
 RestartSec={{ restart_sec }}

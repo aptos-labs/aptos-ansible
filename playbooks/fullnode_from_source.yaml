@@ -3,8 +3,9 @@
 - name: Setup fullnode running from source
   hosts: nodes
   roles:
-    - basic_setup
+    - init_ansible
     - install_source_dependencies
     - build_binary
+    - create_node_config
     - setup_firewall
     - start_unit

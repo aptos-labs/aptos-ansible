@@ -1,0 +1,11 @@
+---
+argument_specs:
+  main:
+    options:
+      api_port:
+        type: "int"
+        description: "The port the node will listen on for API requests"
+
+      make_api_public:
+        type: "bool"
+        description: "Whether to open up the API to external traffic"

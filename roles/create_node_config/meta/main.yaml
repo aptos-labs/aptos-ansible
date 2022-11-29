@@ -1,0 +1,26 @@
+---
+argument_specs:
+  main:
+    options:
+      node_data_path:
+        type: "str"
+        description: "The directory the aptos-node binary will run in, i.e. where the DB data will be"
+
+      config_path:
+        type: "str"
+        description: "The path to the aptos-node config file"
+
+      # TODO: Make this more complex, it shouldn't just correlate to the field in the config.
+      node_role:
+        type: "str"
+        description: "The role of the node"
+        choices: ["validator", "full_node"]
+
+      # Note: These next two are meant to the same as the setup_firewall role.
+      api_port:
+        type: "int"
+        description: "The port the node will listen on for API requests"
+
+      make_api_public:
+        type: "bool"
+        description: "Whether to open up the API to external traffic"

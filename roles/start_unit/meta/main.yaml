@@ -2,7 +2,12 @@
 argument_specs:
   main:
     options:
-      # Note: These first two are meant to be the same arguments as in the build_binary role.
+      aptos_network:
+        type: "str"
+        required: true
+        description: "What network you're connecting to, e.g. mainnet, testnet, devnet, etc."
+
+      # Note: These next two are meant to be the same arguments as in the build_binary role.
       aptos_core_path:
         type: "str"
         description: "The absolute path where the role will clone aptos-core"
@@ -11,6 +16,7 @@ argument_specs:
         type: "str"
         description: "The profile to use for cargo build, e.g. release, performance, etc."
 
+      # Note: These next two are meant to the same as the create_node_config role.
       node_data_path:
         type: "str"
         description: "The directory the aptos-node binary will run in, i.e. where the DB data will be"

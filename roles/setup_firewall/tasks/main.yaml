@@ -7,3 +7,29 @@
     name:
       - ufw
     state: present
+
+- name: Disallow all incoming traffic by default
+  become: true
+  ansible.builtin.command:
+    cmd: ufw default deny incoming
+
+- name: Allow all outgoing traffic by default
+  become: true
+  ansible.builtin.command:
+    cmd: ufw default allow outgoing
+
+- name: Allow ssh
+  become: true
+  ansible.builtin.command:
+    cmd: ufw allow ssh
+
+- name: Open the API port if configured to do so
+  become: true
+  ansible.builtin.command:
+    cmd: "ufw allow {{ vars.api_port }}/tcp"
+  when: vars.make_api_public
+
+- name: Enable ufw
+  become: true
+  ansible.builtin.command:
+    cmd: ufw enable

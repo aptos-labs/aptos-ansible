@@ -11,7 +11,7 @@
 
 - name: Clone aptos-core repo
   ansible.builtin.git:
-    repo: 'https://github.com/aptos-labs/aptos-core.git'
+    repo: "https://github.com/aptos-labs/aptos-core.git"
     dest: "{{ vars.aptos_core_path }}"
     version: "{{ vars.git_rev }}"
     force: true
