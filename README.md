@@ -1,5 +1,7 @@
 # Aptos Ansible
 
+> NOTE: Not for production use! This is an experimental deployment method, and has not been thoroughly tested or deployed. It may be lacking features critical to operating an Aptos node in production. 
+
 ## The Mission
 We've come to realize that the majority of operators choose not to run their nodes in a k8s environment, largely due to the expensive and complexity. Despite that, we don't have much first class support in terms of tooling, configuration, or documentation for non-k8s deployment. This project aims to address that. Our goal with this is to support any combination of:
 
