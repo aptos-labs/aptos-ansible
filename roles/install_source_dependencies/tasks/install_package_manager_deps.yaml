@@ -9,6 +9,7 @@
       - clang
       - curl
       - git
+      - socat
       - lld
       - llvm
     state: present

@@ -1,0 +1,55 @@
+# This task provisions an SSL certificate for the node to use. Note that for this to
+# succeed, `cert_domain` must already point at the IP the node will be running at.
+# If `cert_domain` is not provided, all of this will be skipped. If it _is_ provided,
+# the API config will be modified to run on port 443.
+
+---
+- name: Make directory for certs stuff
+  become: true
+  ansible.builtin.file:
+    path: "/opt/aptos-certs"
+    state: directory
+    owner: "{{ ansible_user_id }}"
+    mode: "0755"
+  when: cert_domain is defined and cert_email is defined
+
+- name: Install acme.sh
+  become: true
+  ansible.builtin.shell: curl https://get.acme.sh | sh -s
+  when: cert_domain is defined and cert_email is defined
+  tags:
+    - skip_ansible_lint
+
+- name: Ensure the node isn't running
+  ansible.builtin.service:
+    name: aptos-node
+    daemon_reload: true
+    enabled: true
+    scope: user
+    state: stopped
+  when: cert_domain is defined and cert_email is defined
+  tags:
+    - skip_ansible_lint
+
+- name: Register an account
+  ansible.builtin.command: /root/.acme.sh/acme.sh --register-account -m {{ cert_email }}
+  args:
+    creates: /ansible/cert-registration
+  become: true
+  when: cert_domain is defined and cert_email is defined
+
+- name: Issue a certificate
+  ansible.builtin.command: /root/.acme.sh/acme.sh --standalone --issue -d {{ cert_domain }} --cert-home /opt/aptos-certs
+  args:
+    creates: /ansible/cert-issuance
+  become: true
+  when: cert_domain is defined and cert_email is defined
+
+- name: Change ownership of the certs
+  become: true
+  ansible.builtin.file:
+    path: /opt/aptos-certs
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    recurse: true
+  when: cert_domain is defined and cert_email is defined

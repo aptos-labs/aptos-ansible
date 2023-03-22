@@ -1,0 +1,10 @@
+---
+argument_specs:
+  main:
+    options:
+      cert_domain:
+        type: "str"
+        description: "The domain pointing at the server, e.g. fullnode.example.com"
+      cert_email:
+        type: "str"
+        description: "The email to use for the SSL certificate"

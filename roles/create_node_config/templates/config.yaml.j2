@@ -16,4 +16,8 @@ full_node_networks:
 
 api:
     enabled: true
-    address: {{ "0.0.0.0" if make_api_public else "127.0.0.1" }}:{{ api_port }}
+    address: {{ "0.0.0.0" if make_api_public else "127.0.0.1" }}:{{ "443" if cert_domain else api_port }}
+    {% if cert_domain -%}
+    tls_cert_path: "/opt/aptos-certs/{{ cert_domain }}_ecc/{{ cert_domain }}.cer"
+    tls_key_path: "/opt/aptos-certs/{{ cert_domain }}_ecc/{{ cert_domain }}.key"
+    {% endif %}

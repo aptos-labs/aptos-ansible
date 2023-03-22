@@ -12,16 +12,19 @@
   become: true
   ansible.builtin.command:
     cmd: ufw default deny incoming
+  changed_when: false
 
 - name: Allow all outgoing traffic by default
   become: true
   ansible.builtin.command:
     cmd: ufw default allow outgoing
+  changed_when: false
 
 - name: Allow ssh
   become: true
   ansible.builtin.command:
     cmd: ufw allow ssh
+  changed_when: false
 
 - name: Open the API port if configured to do so
   become: true
@@ -33,3 +36,4 @@
   become: true
   ansible.builtin.command:
     cmd: ufw enable
+  changed_when: false

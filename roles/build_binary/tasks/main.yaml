@@ -14,7 +14,7 @@
     repo: "https://github.com/aptos-labs/aptos-core.git"
     dest: "{{ vars.aptos_core_path }}"
     version: "{{ vars.git_rev }}"
-    force: true
+    force: false
 
 - name: Build aptos-node
   ansible.builtin.shell:
