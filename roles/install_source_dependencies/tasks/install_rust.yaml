@@ -1,7 +1,7 @@
 ---
 - name: Get current cargo version, if any
   ansible.builtin.shell:
-    cmd: ". $HOME/.cargo/env && cargo version"
+    cmd: "(. $HOME/.cargo/env && cargo version) || echo '0 0'"
   register: cargo_version
   ignore_errors: true
   changed_when: cargo_version.rc != 0
