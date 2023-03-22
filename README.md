@@ -40,7 +40,7 @@ There are some manual steps you must do first:
 ## Running Playbooks
 You can run a playbook like this:
 ```
-poetry run ansible-playbook -i hosts playbooks/fullnode_from_source.yaml --extra-vars 'git_rev=devnet'
+poetry run ansible-playbook -i hosts playbooks/fullnode_from_source.yaml --extra-vars 'git_rev=devnet node_role=full_node aptos_network=devnet'
 ```
 
 There are other ways to define the extra vars, e.g. in your inventory. [See more here](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_variables.html).
