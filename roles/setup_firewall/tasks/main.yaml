@@ -26,11 +26,17 @@
     cmd: ufw allow ssh
   changed_when: false
 
-- name: Open the API port if configured to do so
+- name: Open the API port if configured to do so and https is not enabled
   become: true
   ansible.builtin.command:
-    cmd: "ufw allow {{ vars.api_port }}/tcp"
-  when: vars.make_api_public
+    cmd: "ufw allow {{ api_port }}/tcp"
+  when: make_api_public and not cert_domain
+
+- name: Open the API port for https if configured to do so
+  become: true
+  ansible.builtin.command:
+    cmd: "ufw allow 443/tcp"
+  when: make_api_public and cert_domain
 
 - name: Enable ufw
   become: true
